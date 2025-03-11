@@ -9,5 +9,5 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  */
 
 @Retention(RUNTIME)
-public @interface DomaineService {
+public @interface Stub {
 }

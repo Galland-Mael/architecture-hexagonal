@@ -14,7 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class ArmuControllerTests {
+class ArmyControllerTests {
 
     @Autowired
     MockMvc mockMvc;
@@ -23,12 +23,12 @@ class ArmuControllerTests {
     void shouldAssembleAnArmy() throws Exception {
         mockMvc.perform(post("/army")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"weight\": 100}")
+                        .content("{\"weight\": 101}")
                 )
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.persons").value(hasSize(1)))
-                .andExpect(jsonPath(("$.persons[0].name")).value("Luke Skywalker"))
-                .andExpect(jsonPath(("$.persons[0].weight")).value(172));
+                .andExpect(jsonPath("$.persons").value(hasSize(2)))
+                .andExpect(jsonPath(("$.persons[0].name")).value("John"))
+                .andExpect(jsonPath(("$.persons[0].weight")).value(100));
     }
 
 }

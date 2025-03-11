@@ -1,7 +1,8 @@
-package com.example.demo.army.spi;
+package mael.dev.army.spi;
 
 
-import com.example.demo.army.Person;
+
+import mael.dev.army.Person;
 
 import java.util.List;
 

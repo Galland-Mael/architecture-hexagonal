@@ -4,7 +4,9 @@ import mael.dev.army.Army;
 import mael.dev.army.ArmyAssembler;
 import mael.dev.army.Person;
 
-import mael.dev.army.api.AssembledArmy;
+import mael.dev.army.api.AssembleArmy;
+import mael.dev.army.spi.PersonInventory;
+import mael.dev.army.spi.stub.PersonInventoryStub;
 import org.assertj.core.api.Condition;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +17,7 @@ import java.util.function.Predicate;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 
-class AssembledArmyFunctionalTest {
+class AssembleArmyFunctionalTest {
 
     @Test
     void isArmyStrongEnough() {
@@ -30,7 +32,9 @@ class AssembledArmyFunctionalTest {
 
         final Integer weightToCarry = 1000;
 
-        final AssembledArmy assembleArmy = new ArmyAssembler(() -> persons);
+        PersonInventory personInventory = new PersonInventoryStub(persons);
+
+        final AssembleArmy assembleArmy = new ArmyAssembler(personInventory);
         //When
         final Army army = assembleArmy.forWeight(weightToCarry);
 

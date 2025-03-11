@@ -1,27 +1,30 @@
-package com.example.demo.army;
+package mael.dev.army;
 
 
-import com.example.demo.army.api.AssembleArmy;
-import com.example.demo.army.spi.PersonInventory;
+
+import mael.dev.army.api.AssembleArmy;
+import mael.dev.army.spi.PersonInventory;
+import mael.dev.ddd.DomaineService;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@DomaineService
 public class ArmyAssembler implements AssembleArmy {
-    private PersonInventory personInventory;
+    private final PersonInventory personInventory;
 
     public ArmyAssembler(PersonInventory personInventory) {
         this.personInventory = personInventory;
     }
 
     @Override
-    public Army forWeight(int weightToCarry) {
+    public Army forWeight(Integer weightToCarry) {
         List<Person> persons = getPersons();
         List<Person> personsToCarry = getEnoughPersonsToCarry(weightToCarry, persons);
         return new Army(personsToCarry);
     }
 
-    private List<Person> getEnoughPersonsToCarry(int weightToCarry, List<Person> persons) {
+    private List<Person> getEnoughPersonsToCarry(Integer weightToCarry, List<Person> persons) {
         List<Person> personsToCarry = new ArrayList<>();
         while (weightToCarry > 0) {
             Person person = persons.removeFirst();

@@ -1,4 +1,4 @@
-package com.example.demo.army;
+package mael.dev.army;
 
 import java.util.List;
 
