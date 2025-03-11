@@ -26,7 +26,7 @@ public class ArmyAssembler implements AssembleArmy {
 
     private List<Person> getEnoughPersonsToCarry(Integer weightToCarry, List<Person> persons) {
         List<Person> personsToCarry = new ArrayList<>();
-        while (weightToCarry > 0) {
+        while (weightToCarry > 0 && !persons.isEmpty()) {
             Person person = persons.removeFirst();
             personsToCarry.add(person);
             weightToCarry -= person.weight();
