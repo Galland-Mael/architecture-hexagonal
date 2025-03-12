@@ -5,6 +5,7 @@ package mael.dev.army;
 import mael.dev.army.api.AssembleArmy;
 import mael.dev.army.spi.PersonInventory;
 import mael.dev.ddd.DomaineService;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
 public class ArmyAssembler implements AssembleArmy {
     private final PersonInventory personInventory;
 
-    public ArmyAssembler(PersonInventory personInventory) {
+    public ArmyAssembler(@Qualifier("swapiClient") PersonInventory personInventory) {
         this.personInventory = personInventory;
     }
 

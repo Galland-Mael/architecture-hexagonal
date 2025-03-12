@@ -1,17 +1,12 @@
 package mael.dev.api.controller.swapi;
 
-import mael.dev.api.configuration.DomaineConfiguration;
-import mael.dev.api.controller.ArmyController;
 import mael.dev.api.swapi.SwapiClient;
 import mael.dev.ddd.Stub;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
-import org.springframework.context.annotation.Import;
 import org.springframework.core.io.Resource;
 import mael.dev.army.Person;
 import mael.dev.army.spi.PersonInventory;
@@ -30,7 +25,7 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
 @RestClientTest(SwapiClient.class)
-class SwapiControllerTests {
+class SwapiClientTests {
 
     @Autowired
     private PersonInventory swapiClient;

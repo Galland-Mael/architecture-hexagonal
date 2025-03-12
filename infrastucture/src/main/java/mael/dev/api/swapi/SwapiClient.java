@@ -1,28 +1,34 @@
 package mael.dev.api.swapi;
 
+import mael.dev.api.swapi.model.SwapiPerson;
 import mael.dev.api.swapi.model.SwapiResponse;
 import mael.dev.army.Person;
 import mael.dev.army.spi.PersonInventory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
+import java.util.function.Predicate;
 
 import static java.lang.Integer.parseInt;
 
 @Component
 public class SwapiClient implements PersonInventory {
+
     private final RestTemplate restTemplate;
+
+    public SwapiClient(RestTemplateBuilder restTemplateBuilder) {
+        this.restTemplate = restTemplateBuilder.build();
+    }
 
     @Value("${swapi.url}")
     private String baseUrl;
 
-    public SwapiClient(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
 
     @Override
     public List<Person> fetchPersons() {
@@ -38,8 +44,13 @@ public class SwapiClient implements PersonInventory {
 
     private List<Person>convertSwapiResponseToPersons(SwapiResponse response) {
         return response.results().stream()
-                .map(swapiPerson -> new Person(swapiPerson.name(), parseInt(swapiPerson.mass())))
+                .filter(hasValidMass())
+                .map(swapiPerson -> new Person(swapiPerson.name(), parseInt(swapiPerson.mass().replace(",", "").replace(".", ""))))
                 .toList();
+    }
+
+    private Predicate<? super SwapiPerson> hasValidMass() {
+        return swapiPerson -> !Objects.equals("unknown", swapiPerson.mass());
     }
 
     private SwapiResponse getPersonFromSwapi(String nextUrl) {
