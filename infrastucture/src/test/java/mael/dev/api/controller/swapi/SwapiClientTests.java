@@ -20,6 +20,7 @@ import org.springframework.test.web.client.MockRestServiceServer;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.anything;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
@@ -34,9 +35,6 @@ class SwapiClientTests {
 
     @Value("classpath:__files/playloads/swapi-page1.json")
     private Resource swapiPage1;
-
-    @Value("classpath:__files/playloads/swapi-page2.json")
-    private Resource swapiPage2;
 
     @Test
     void should_return_persons() {
@@ -64,17 +62,10 @@ class SwapiClientTests {
                 .andExpect(requestTo("https://swapi.dev/api/people"))
                 .andRespond(withSuccess(swapiPage1, MediaType.APPLICATION_JSON));
 
+        // on récupère que la premiere page le reste on revoie rien
         this.mockServer
-                .expect(method(HttpMethod.GET))
-                .andExpect(requestTo("https://swapi.dev/api/people?page=2"))
-                .andRespond(withSuccess(swapiPage2, MediaType.APPLICATION_JSON));
-    }
-
-    @TestConfiguration
-    @ComponentScan(
-            basePackageClasses = {Person.class},
-            includeFilters = {@ComponentScan.Filter(type = FilterType.ANNOTATION, classes = {Stub.class})})
-    static class StubConfiguration {
+                .expect(anything())
+                .andRespond(withSuccess("{\"results\": []}", MediaType.APPLICATION_JSON));
     }
 
 }
